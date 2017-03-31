@@ -56,4 +56,7 @@ if __name__ == "__main__":
     )
     FLAGS, unparsed = parser.parse_known_args()
     logging.basicConfig(filename='ann_runner.log', level=logging.INFO, format='%(asctime)s %(message)s')
+    logging.info('Started script: ' + FLAGS.script)
     main(FLAGS.script)
+    logging.info('Ended script: ' + FLAGS.script)
+    

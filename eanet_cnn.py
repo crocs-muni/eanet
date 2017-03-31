@@ -48,7 +48,7 @@ def train(data, labels):
 
 def convert_to(in_af, in_bf, size):
     tv = []
-    out_arr = np.empty((size, tv_size * 8), dtype=float)
+    out_arr = np.empty((size, tv_size, 8), dtype=float)
     labels = np.random.randint(2, size=(size, 1))
 
     for y in range(size):
@@ -59,7 +59,7 @@ def convert_to(in_af, in_bf, size):
                 tv = bytearray(in_bf.read(1))[0]
 
             for i in range(8):
-                out_arr[y][x*8 + i] = 0.5 if (tv & 2**i) else -0.5
+                out_arr[y][x][i] = 0.5 if (tv & 2**i) else -0.5
 
     return out_arr, labels
 
