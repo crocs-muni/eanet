@@ -11,7 +11,7 @@ import random
 import numpy as np
 
 from keras.models import Sequential
-from keras.layers import Dense, Activation
+from keras.layers import Dense, Conv1D, Activation, Flatten, Dropout
 
 FLAGS = None
 
@@ -24,10 +24,18 @@ model = Sequential()
 
 def evaluate(data, labels):
     # train the model, iterating on the data in batches of 32 samples
-    score = model.evaluate(data, labels, batch_size=batch_size*10)
+    score = model.evaluate(data, labels, batch_size=batch_size*100)
     print("Score = " + str(score))
 
 def train(data, labels):
+    model.add(Conv1D(input_dim = 8, # byte = 8 bits as "8 channels"
+                    nb_filter=tv_size, # every byte has filter
+                    filter_length=8, # length is byte
+                    #input_shape=(1,tv_size*8),
+                    input_length = tv_size,
+                    activation='sigmoid'))
+    model.add(Dropout(0.25))
+    model.add(Flatten())
     model.add(Dense(8, input_dim=tv_size*8, activation='sigmoid'))
     model.add(Dense(4, activation='sigmoid'))
     model.add(Dense(1, activation='sigmoid'))
@@ -90,5 +98,16 @@ if __name__ == '__main__':
         set.\
         """
     )
+    parser.add_argument(
+        '--tv_size',
+        type=int,
+        default=16,
+        help="""\
+        Number of examples to separate from the training data for the validation
+        set.\
+        """
+    )
     FLAGS, unparsed = parser.parse_known_args()
+    tv_size = FLAGS.tv_size
     process()
+
