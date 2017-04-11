@@ -32,13 +32,13 @@ The output is:
 > Score = [0.042080752551555634, 0.99936002492904663]
 ```
 
-Simplified, the `acc` means what ratio of correct quesses hat the ANN on the data during given batch. The `loss` says, how fast the ANN learns - lower numbers imply smaller changes - fine grained fine-tuning of the values.
+Simplified, the `acc` means what ratio of correct guesses hat the ANN on the data during given batch. The `loss` says, how fast the ANN learns - lower numbers imply smaller changes - fine grained fine-tuning of the values.
 
 The final evaluation is done on fresh data (and much bigger batch). The score is tuple of `loss` and `acc`. The second value for random data should act accordingly to binomial distribution with `n=12500` and `p=0.5`. The `p-value` of this computation would be 1. Even `acc=0.55` is significant for that big batch.
 
 ### Automation
 
-The script `run_ann.py` enables running scripts `eanet_ann.py` and `eanet_cnn.py` on multiple binary files in sequence. It expects you have reference file named `in_b.bin` for running ANN scripts. Then it runs given script over all binary files in current directory. If the binary files have naming convence `NAME_bSIZE.bin` for example `AES_r3_b16.bin`, it will pass the corresponding block size to the ANN script (in the example, it will set `--tv_size 16`). If the size is not set, the default value is 16 B.
+The script `run_ann.py` enables running scripts `eanet_ann.py` and `eanet_cnn.py` on multiple binary files in sequence. It expects you have reference file named `in_b.bin` for running ANN scripts. Then it runs given script over all binary files in current directory. If the binary files have naming convention `NAME_bSIZE.bin` for example `AES_r3_b16.bin`, it will pass the corresponding block size to the ANN script (in the example, it will set `--tv_size 16`). If the size is not set, the default value is 16 B.
 
 ```
 > python3 run_ann.py --script SCRIPT_NAME
