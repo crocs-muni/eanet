@@ -1,4 +1,5 @@
-"""Converts EAC data to numpy array."""
+#!/usr/bin/env python
+
 from __future__ import absolute_import
 from __future__ import division
 
@@ -22,10 +23,12 @@ batch_size = 25
 
 model = Sequential()
 
+
 def evaluate(data, labels):
     # train the model, iterating on the data in batches of 32 samples
     score = model.evaluate(data, labels, batch_size=batch_size*100)
     print("Score = " + str(score))
+
 
 def train(data, labels):
     model.add(Conv1D(input_dim = 8, # byte = 8 bits as "8 channels"
@@ -36,7 +39,7 @@ def train(data, labels):
                     activation='sigmoid'))
     model.add(Dropout(0.25))
     model.add(Flatten())
-    model.add(Dense(8, input_dim=tv_size*8, activation='sigmoid'))
+    #model.add(Dense(8, activation='sigmoid')) #input_dim=tv_size*8
     model.add(Dense(4, activation='sigmoid'))
     model.add(Dense(1, activation='sigmoid'))
     model.compile(optimizer='SGD',
@@ -45,6 +48,7 @@ def train(data, labels):
 
     # train the model, iterating on the data in batches of 32 samples
     model.fit(data, labels, nb_epoch=nb_epoch, batch_size=batch_size)
+
 
 def convert_to(in_af, in_bf, size):
     tv = []
@@ -62,6 +66,7 @@ def convert_to(in_af, in_bf, size):
                 out_arr[y][x][i] = 0.5 if (tv & 2**i) else -0.5
 
     return out_arr, labels
+
 
 def process():
     with open(FLAGS.in_a, "rb") as in_af, open(FLAGS.in_b, "rb") as in_bf:
