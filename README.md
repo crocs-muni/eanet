@@ -1,4 +1,6 @@
 # eanet
+[![DOI](https://zenodo.org/badge/82204773.svg)](https://zenodo.org/badge/latestdoi/82204773)
+
 ANN version of EACirc
 
 ## Running notes
